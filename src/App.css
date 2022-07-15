@@ -1,3 +1,32 @@
 .App {
+  
+}
+
+.foot{
   text-align: center;
+    color: rgb(10, 10, 10);
+}
+.alignment{
+  display: grid;
+  column-gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 15px;
+}
+
+.table{
+  margin: 30px 100px 30px 100px;
+}
+.tbbg{
+  background-color: #96bba9;
+  border-radius: 10px;
+}
+.search{
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.heading{
+  color: #ffffff;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  
 }
