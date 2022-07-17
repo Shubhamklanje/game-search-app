@@ -60,6 +60,7 @@ export default function Tables() {
   })
   // console.log(rows);
 
+  //Search fuctionality
   const requestSearch = (searchedVal) => {
     const filteredRows = users.filter((row) => {
       return row.title.toLowerCase().includes(searchedVal.toLowerCase());
