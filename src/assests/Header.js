@@ -9,6 +9,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
+
+//this is for theme chnaging
 const themeLight = createMuiTheme({
   palette: {
     background: {
@@ -55,17 +57,19 @@ export default function Header() {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, bgcolor: "#96bba9", }}
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, bgcolor: "#96bba9", fontFamily: 'Monospace' }}
               className="heading"
             >
-              GAMING
+              GAMING PROJECT
             </Typography>
           </Toolbar>
         </AppBar>
       </Box>
+
+    {/* theme chnaging options */}
       <MuiThemeProvider theme={light ? themeLight : themeDark}>
         <CssBaseline />
-        <Button sx={{ dispaly: "flex", alignItems: "center", bgcolor: "#96bba9" }} onClick={() => setLight(prev => !prev)}>Change theme</Button>
+        <Button className="theme" sx={{ dispaly: "flex", alignItems: "center", fontFamily: 'Monospace' }} onClick={() => setLight(prev => !prev)}>Click to <br />Change theme</Button>
       </MuiThemeProvider>
     </div>
   );

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid'; //datagrid is from mui
 import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
+import SearchBar from "material-ui-search-bar";
+import { Button } from "@mui/material";
+
 
 const columns = [
   { field: 'title', headerName: 'Title', width: 400 },
@@ -17,6 +17,7 @@ export default function Tables() {
 
   const [users, setUser] = useState([]);
   const [pageSize, setPageSize] = React.useState(10);
+  const [searched, setSearched] = useState("");
 
   //function to fetch api
   const fetchData = () => {
@@ -24,7 +25,7 @@ export default function Tables() {
       .then((response) => {
         return response.json();
       }).then((data) => {
-
+        //this function for adding unique id to each object of api
         function addId(id) {
           return function iter(o) {
             if ('title' in o) {
@@ -36,16 +37,17 @@ export default function Tables() {
           };
         }
         data.forEach(addId(1))
+        //this one is to remove the first object of api
         data.splice(0, 1);
         setUser(data)
-        console.log(data);
+        // console.log(data);
 
       })
   }
   useEffect(() => {
     fetchData();
   }, [])
-  // data triming 
+  // data triming
   const rows = users?.map(user => {
     return {
       title: user?.title,
@@ -56,37 +58,55 @@ export default function Tables() {
       editors_choice: user?.editors_choice,
     }
   })
-  console.log(rows);
+  // console.log(rows);
+
+  const requestSearch = (searchedVal) => {
+    const filteredRows = users.filter((row) => {
+      return row.title.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+    setUser(filteredRows);
+    // console.log(filteredRows);
+  };
+
+  //function for refreshing 
+  function refreshPage() {
+    window.location.reload();
+  }
 
   return (
-    <div >
+    <div>
       <div className="search">
-      <Paper
-        component="form"
-        sx={{
-          p: '2px 4px',
-          display: 'flex',
-          alignItems: 'center',
-          width: 400,
-          backgroundColor: "#96bba9"
-        }} >
-        <InputBase
+        <Paper
+          component="form"
           sx={{
-            ml: 1, flex: 1,
+            p: '2px 4px',
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: "#96bba9"
+            backgroundColor: "#96bba9",
+            fontFamily: 'Monospace'
+          }} >
+          <SearchBar
+            sx={{ fontFamily: 'Monospace'}}
+            value={searched}
+            onChange={(searchVal) => requestSearch(searchVal)}
+            onCancelSearch={() =>  refreshPage()}
+          />
+          <Button 
+          sx={{
+            borderRadius: "100px",
+            backgroundColor: "#e4f0e2",
+            color: "black",
+            fontFamily: 'Monospace'
           }}
-          placeholder="Search"
-          inputProps={{ 'aria-label': 'search' }}
-        />
-        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-          <SearchIcon />
-        </IconButton>
-      </Paper>
+          variant="contained"
+          onClick={ refreshPage }>
+          Refresh
+          </Button>
+        </Paper>
       </div>
-      <div className="tbbg" style={{ height: 450, width: '100%', margin: '20px', padding: '15px'}}>
+      <div className="tbbg" style={{ height: 450, width: '100%', margin: '20px', padding: '15px' }}>
         <DataGrid
+        sx={{ fontFamily: 'Monospace'}}
           rows={rows}
           getRowId={(row) => row.id}
           columns={columns}
